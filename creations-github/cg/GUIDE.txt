@@ -1,0 +1,36 @@
+CREATIONS (free GitHub version)
+
+HOW IT WORKS
+  * Game list = the file games.json in your GitHub repository.
+  * Game files and covers = attached to a hidden "game-files" release in the same repository.
+  * Friends install the app once. They see your games and download them. No accounts needed.
+  * You turn on "Owner mode" in the app (with a GitHub token) to Publish and Update games.
+  * App updates install themselves: you make a new release (v1.0.1, ...) and GitHub builds it.
+  Everything is free. The repository must stay PUBLIC. Each game file must be under 2 GB.
+
+SET UP (once)
+ 1. github.com > sign up (free) > + > New repository. Name it "creations". Choose PUBLIC. Create.
+ 2. Click "uploading an existing file". Unzip this project, open the folder, select EVERYTHING
+    (including the hidden .github folder) and drag it in. Click Commit changes.
+ 3. Click Releases > Create a new release. Tag: v1.0.0 (click "Create new tag"). Title: 1.0.0.
+    Click Publish release. Wait 5-10 minutes (watch the Actions tab for a green check).
+    The release then shows "Creations Setup 1.0.0.exe".
+ 4. Install it yourself. Open the app > Owner. Follow the 5 steps on that page to make a token
+    and paste it. Owner mode is on, a Publish tab appears.
+
+PUBLISH A GAME
+  Publish tab > fill in the form > choose your game file (and a cover image) > Publish game.
+
+UPDATE A GAME
+  Open the game > Update game > new version number + what changed (+ new file if the game changed).
+  Friends see an "Update" badge and can download the new version.
+
+GIVE THE APP TO FRIENDS
+  Send: https://github.com/YOUR-USERNAME/creations/releases/latest
+  They download "Creations Setup ... .exe". If Windows says "Windows protected your PC",
+  they click More info > Run anyway.
+
+UPDATE THE APP ITSELF
+  Change files on GitHub (pencil icon / upload), then Releases > Create a new release with a
+  higher tag (v1.0.1, v1.0.2...) > Publish. Installed apps update automatically.
+  Do not delete the "game-files" release: it holds your games.

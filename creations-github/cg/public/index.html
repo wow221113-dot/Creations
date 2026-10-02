@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'">
+<title>Creations</title>
+<style>
+:root{--bg:#0f1117;--panel:#181b24;--panel2:#212633;--ink:#eef0f6;--muted:#8d95a8;--line:#2a3040;--accent:#5eead4;--accent-ink:#06211d;--bad:#fb7185}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Segoe UI",system-ui,sans-serif}a{color:inherit;text-decoration:none}
+.bar{display:flex;align-items:center;gap:20px;padding:12px 28px;background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.logo{font:800 22px/1 Georgia,serif}nav{display:flex;gap:6px;flex:1;align-items:center}
+nav a,nav button.link{padding:8px 12px;border-radius:8px;color:var(--muted);background:none;border:0;font:inherit;cursor:pointer}
+nav a:hover,nav a.on,nav button.link:hover{color:var(--ink);background:var(--panel2)}nav .sp{flex:1}
+main{max-width:1180px;margin:0 auto;padding:28px}h1{font-size:30px;margin:0 0 6px}h2{font-size:20px;margin:28px 0 12px}.muted{color:var(--muted)}
+.btn{display:inline-block;border:0;border-radius:8px;padding:11px 20px;background:var(--accent);color:var(--accent-ink);font:700 15px inherit;font-family:inherit;cursor:pointer}
+.btn.alt{background:var(--panel2);color:var(--ink)}.btn:disabled{opacity:.5;cursor:default}
+.btn:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.hero{display:grid;grid-template-columns:1.6fr 1fr;background:var(--panel);border-radius:14px;overflow:hidden;min-height:300px}
+.hero .txt{padding:32px;display:flex;flex-direction:column;justify-content:center;gap:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:18px}
+.card{background:var(--panel);border-radius:12px;overflow:hidden;display:block;transition:transform .15s}.card:hover{transform:translateY(-3px)}
+.card .meta{padding:12px 14px}.card b{display:block}
+.cover{width:100%;aspect-ratio:3/4;object-fit:cover;display:flex;align-items:flex-end;padding:14px;font:800 24px/1.1 Georgia,serif;color:#fff;text-shadow:0 2px 12px #0008}
+.hero .cover{aspect-ratio:auto;height:100%;min-height:260px}
+.tag{display:inline-block;font-size:12px;padding:2px 9px;border-radius:99px;background:var(--panel2);color:var(--muted)}.tag.new{background:var(--accent);color:var(--accent-ink);font-weight:700}
+.detail{display:grid;grid-template-columns:300px 1fr;gap:32px}.detail .cover{border-radius:12px}
+.log{border-left:2px solid var(--line);padding:2px 0 2px 14px;margin:12px 0}
+.form{max-width:640px;background:var(--panel);padding:28px;border-radius:14px;margin:20px auto}
+label{display:block;margin:14px 0 5px;font-size:14px;color:var(--muted)}
+input,textarea{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:11px 12px;font:inherit}
+textarea{min-height:110px;resize:vertical}input[type=color]{padding:2px;height:42px;width:80px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}.err{color:var(--bad);margin-top:12px;min-height:22px}.ok{color:var(--accent)}
+.banner{background:var(--panel2);border-left:4px solid var(--bad);padding:10px 14px;border-radius:8px;margin-bottom:18px}
+ol.steps{padding-left:20px;color:var(--muted)}ol.steps li{margin:6px 0}code{background:var(--bg);padding:1px 6px;border-radius:4px}
+.ownrow{display:flex;justify-content:space-between;align-items:center;background:var(--panel);padding:12px 16px;border-radius:10px;margin:8px 0}
+@media(max-width:760px){.hero,.detail,.row{grid-template-columns:1fr}.bar{padding:10px 14px;flex-wrap:wrap}main{padding:16px}}
+</style></head>
+<body>
+<header class="bar"><a class="logo" href="#/">Creations</a><nav id="nav"></nav></header>
+<main id="app"></main>
+<script>
+const $=s=>document.querySelector(s), app=$('#app'), C=window.creations;
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=t=>new Date(t).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});
+const size=n=>n>=1e9?(n/1e9).toFixed(2)+' GB':n>=1e6?(n/1e6).toFixed(1)+' MB':Math.max(1,Math.round(n/1e3))+' KB';
+const call=async p=>{const r=await p;if(!r.ok)throw new Error(r.error);return r.data};
+const lib=()=>{try{return JSON.parse(localStorage.getItem('lib')||'{}')}catch{return{}}};
+const newer=(a,b)=>{const x=String(a).split(/[.-]/).map(Number),y=String(b).split(/[.-]/).map(Number);for(let i=0;i<Math.max(x.length,y.length);i++){const d=(x[i]||0)-(y[i]||0);if(d)return d>0}return false};
+let cfg={},games=[],loadErr='',picked={};
+async function load(){
+  cfg=await call(C.cfg()); loadErr='';
+  try{games=(await call(C.catalog())).games}catch(e){games=[];loadErr=e.message}
+}
+const cover=g=>g.coverUrl?`<img class="cover" src="${esc(g.coverUrl)}" alt="${esc(g.title)} cover">`
+  :`<div class="cover" style="background:linear-gradient(160deg,${esc(g.color||'#3b5bdb')},#0f1117 130%)">${esc(g.title)}</div>`;
+const upd=g=>{const l=lib()[g.id];return l&&newer(g.version,l.version)};
+const card=g=>`<a class="card" href="#/game/${esc(g.id)}">${cover(g)}<div class="meta"><b>${esc(g.title)}</b><span class="muted">${esc(g.genre||'Game')} · v${esc(g.version)}</span>${upd(g)?' <span class="tag new">Update</span>':''}</div></a>`;
+
+function navbar(){
+  const h=location.hash||'#/', on=p=>h.startsWith(p)?'on':'';
+  $('#nav').innerHTML=`<a class="${h==='#/'?'on':''}" href="#/">Store</a><a class="${on('#/library')}" href="#/library">My games</a>`+
+    `<span class="sp"></span>`+(cfg.hasToken?`<a class="${on('#/publish')}" href="#/publish">Publish</a>`:'')+
+    `<a class="${on('#/owner')}" href="#/owner">Owner</a><span class="muted" style="font-size:13px">v${esc(cfg.version||'')}</span>`;
+}
+const views={
+  store(){
+    const banner=loadErr?`<div class="banner" role="alert">${esc(loadErr)} <button class="btn alt" data-act="refresh">Try again</button></div>`:'';
+    if(!games.length)return banner+`<h1>Creations</h1><p class="muted">No games here yet.${cfg.hasToken?' <a href="#/publish" style="color:var(--accent)">Publish the first one.</a>':''}</p><button class="btn alt" data-act="refresh">Refresh</button>`;
+    const f=games[0];
+    return banner+`<div class="hero"><div class="txt"><span class="tag">Featured</span><h1>${esc(f.title)}</h1><p class="muted">${esc(f.tagline)}</p>
+      <div><a class="btn" href="#/game/${esc(f.id)}">View game</a></div></div>${cover(f)}</div>
+      <h2>All games <button class="btn alt" data-act="refresh" style="padding:5px 12px;font-size:13px">Refresh</button></h2><div class="grid">${games.map(card).join('')}</div>`;
+  },
+  game(id){
+    const g=games.find(x=>x.id===id); if(!g)return `<p>Game not found. <a href="#/">Back to store</a></p>`;
+    const l=lib()[g.id], u=upd(g);
+    return `<div class="detail"><div>${cover(g)}</div><div><span class="tag">${esc(g.genre||'Game')}</span><h1>${esc(g.title)}</h1>
+      <p class="muted">${esc(g.tagline)}</p><p style="white-space:pre-wrap">${esc(g.description)}</p>
+      <p><button class="btn" data-act="dl" data-id="${esc(g.id)}">${u?'Download update v'+esc(g.version):l?'Download again':'Download v'+esc(g.version)}</button>
+      <span class="muted"> ${esc(g.fileName||'')} ${g.fileSize?'· '+size(g.fileSize):''}</span>
+      ${cfg.hasToken?` <a class="btn alt" href="#/edit/${esc(g.id)}">Update game</a>`:''}</p>
+      ${l?`<p class="${u?'':'ok'}">${u?'You have v'+esc(l.version)+'. A newer version is available.':'You have the latest version (v'+esc(l.version)+').'}</p>`:''}
+      <h2>Version history</h2>${(g.history||[]).map(h=>`<div class="log"><b>v${esc(h.version)}</b> <span class="muted">${fmt(h.date)}</span><br>${esc(h.notes)}</div>`).join('')}</div></div>`;
+  },
+  library(){
+    const l=lib(), mine=games.filter(g=>l[g.id]);
+    return `<h1>My games</h1>${mine.length?`<div class="grid" style="margin-top:18px">${mine.map(card).join('')}</div>`:'<p class="muted">Games you download show up here, with a badge when an update is out.</p>'}`;
+  },
+  owner(){
+    if(cfg.hasToken)return `<div class="form"><h1>Owner mode is on</h1><p class="ok">This computer can publish and update games for ${esc(cfg.owner)}/${esc(cfg.repo)}.</p>
+      <p><a class="btn" href="#/publish">Publish a new game</a> <button class="btn alt" data-act="cleartoken">Turn off owner mode</button></p>
+      ${games.length?'<h2>Your games</h2>'+games.map(g=>`<div class="ownrow"><span>${esc(g.title)} <span class="muted">v${esc(g.version)}</span></span><a class="btn alt" href="#/edit/${esc(g.id)}">Update</a></div>`).join(''):''}</div>`;
+    return `<form class="form" data-f="token"><h1>Owner mode</h1><p class="muted">Only the person who owns the GitHub repository can publish. Friends never see this.</p>
+      <ol class="steps"><li>Go to <b>github.com</b> and sign in.</li><li>Click your picture, then <b>Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token</b>.</li>
+      <li>Name it <code>Creations</code>. Under <b>Repository access</b> choose <b>Only select repositories</b> and pick <code>${esc(cfg.repo||'creations')}</code>.</li>
+      <li>Under <b>Permissions → Repository permissions</b>, set <b>Contents</b> to <b>Read and write</b>.</li><li>Click <b>Generate token</b>, copy it, and paste it below.</li></ol>
+      <label for="t">Token</label><input id="t" name="token" type="password" autocomplete="off" required>
+      <p class="err" role="alert"></p><button class="btn">Turn on owner mode</button></form>`;
+  },
+  form(g){
+    if(!cfg.hasToken)return `<div class="form"><h1>Owner only</h1><p class="muted">Turn on owner mode first. <a href="#/owner" style="color:var(--accent)">Set it up</a></p></div>`;
+    const e=!!g; g=g||{color:'#3b5bdb',version:'1.0.0'};
+    return `<form class="form" data-f="${e?'update':'publish'}" data-id="${esc(g.id||'')}"><h1>${e?'Update '+esc(g.title):'Publish a game'}</h1>
+      <label for="t">Title</label><input id="t" name="title" required maxlength="80" value="${esc(g.title)}">
+      <label for="tg">Tagline</label><input id="tg" name="tagline" maxlength="140" value="${esc(g.tagline)}">
+      <div class="row"><div><label for="gn">Genre</label><input id="gn" name="genre" maxlength="30" value="${esc(g.genre)}"></div>
+      <div><label for="v">Version${e?' (new)':''}</label><input id="v" name="version" required maxlength="20" value="${esc(g.version)}"></div></div>
+      <label for="d">Description</label><textarea id="d" name="description" required>${esc(g.description)}</textarea>
+      <label>Game file (zip or installer, under 2 GB)${e?' — skip to keep the current file':''}</label>
+      <button type="button" class="btn alt" data-act="pick" data-kind="file">Choose file…</button> <span id="pf-file" class="muted">${e&&g.fileName?'Current: '+esc(g.fileName):'Nothing chosen'}</span>
+      <label>Cover image (PNG, JPG, WEBP or GIF, under 5 MB, optional)</label>
+      <button type="button" class="btn alt" data-act="pick" data-kind="cover">Choose image…</button> <span id="pf-cover" class="muted">${e&&g.coverUrl?'Current cover kept unless you choose a new one':'Nothing chosen'}</span>
+      <label for="co">Cover color (used when there is no image)</label><input id="co" name="color" type="color" value="${esc(g.color||'#3b5bdb')}">
+      ${e?`<label for="no">What changed in this update?</label><textarea id="no" name="notes" required></textarea>`:''}
+      <p class="err" role="alert"></p><p class="muted" id="prog"></p><button class="btn">${e?'Publish update':'Publish game'}</button></form>`;
+  }
+};
+function route(){
+  const [,a,b]=(location.hash||'#/').split('/'); navbar(); window.scrollTo(0,0);
+  if(a==='game')app.innerHTML=views.game(b);
+  else if(a==='library')app.innerHTML=views.library();
+  else if(a==='owner')app.innerHTML=views.owner();
+  else if(a==='publish'){picked={};app.innerHTML=views.form()}
+  else if(a==='edit'){picked={};app.innerHTML=views.form(games.find(g=>g.id===b))}
+  else app.innerHTML=views.store();
+}
+C.onProgress(d=>{const p=$('#prog');if(p)p.textContent=d.text+(d.pct!=null&&d.pct<100&&/Uploading/.test(d.text)?' '+d.pct+'%':'')});
+app.addEventListener('submit',async ev=>{
+  ev.preventDefault(); const f=ev.target, d=Object.fromEntries(new FormData(f)), err=f.querySelector('.err'), btn=f.querySelector('button.btn'); err.textContent=''; btn.disabled=true;
+  try{
+    if(f.dataset.f==='token'){await call(C.setToken(d.token));await load();location.hash='#/owner';route();return}
+    const g=await call(C.publish({...d,mode:f.dataset.f,id:f.dataset.id,filePath:picked.file?.path,coverPath:picked.cover?.path}));
+    await load(); location.hash='#/game/'+g.id; route();
+  }catch(x){err.textContent=x.message;btn.disabled=false}
+});
+document.addEventListener('click',async ev=>{
+  const b=ev.target.closest('[data-act]'); if(!b)return; const a=b.dataset.act;
+  try{
+    if(a==='refresh'){await load();route()}
+    if(a==='cleartoken'){await call(C.clearToken());await load();route()}
+    if(a==='pick'){const r=await call(C.pickFile(b.dataset.kind));if(r){picked[b.dataset.kind]=r;$('#pf-'+b.dataset.kind).textContent=r.name+' · '+size(r.size)}}
+    if(a==='dl'){
+      const g=games.find(x=>x.id===b.dataset.id); if(!g?.fileUrl)throw new Error('This game has no file yet.');
+      await call(C.download(g.fileUrl,g.fileName));
+      const l=lib(); l[g.id]={version:g.version}; localStorage.setItem('lib',JSON.stringify(l)); setTimeout(route,300);
+    }
+  }catch(x){alert(x.message)}
+});
+window.addEventListener('hashchange',route);
+load().then(route).catch(e=>{app.innerHTML='<p class="banner">'+esc(e.message)+'</p>'});
+</script></body></html>

@@ -1,0 +1,69 @@
+CREATIONS v2 - SETUP GUIDE (everything is free)
+
+WHAT YOU GET
+  * Login / sign up with Google or email, with a birthday (must be 13+; stays private)
+  * Profiles (name, bio, avatar, color). Games can have age ratings (Everyone / 13+ / 17+).
+  * ONLY the owner email can publish and update games. Everyone else can only browse and download.
+  * Games you publish are public: every player sees them as soon as you publish.
+  * Version number shown at the bottom of the sidebar. Auto-update for the app.
+
+PART 1 - GITHUB (stores games + builds the installer)
+  1. github.com > sign up > + > New repository > name "creations" > PUBLIC > Create.
+  2. "uploading an existing file". Unzip this project, open the folder, select EVERYTHING
+     (including the .github folder), drag it in, Commit changes.
+
+PART 2 - FIREBASE (stores accounts and profiles)
+  1. console.firebase.google.com > Add project > name it "creations" > turn Analytics off > Create.
+  2. Build > Authentication > Get started > Sign-in method:
+       enable "Email/Password", then enable "Google" (pick your email as support email) > Save.
+  3. Build > Firestore Database > Create database > pick a location > Production mode > Enable.
+     Open the "Rules" tab, delete everything, paste the contents of firestore.rules, click Publish.
+  4. Click the gear > Project settings > General. Copy "Project ID" and "Web API Key".
+
+PART 3 - GOOGLE LOGIN BUTTON
+  1. console.cloud.google.com (same Google account). At the top, choose your "creations" project.
+  2. Menu > APIs & Services > OAuth consent screen (or "Google Auth Platform"). Set it up:
+     User type External, app name Creations, your email. Save.
+     Under Audience, click "Publish app" so anyone (not just test users) can sign in.
+  3. Credentials > Create credentials > OAuth client ID > Application type "Desktop app" >
+     name Creations > Create. Copy the Client ID and Client secret.
+  4. Back in Firebase > Authentication > Sign-in method > Google > open the settings and add the
+     Client ID to "Safelist client IDs from external projects" (wording may differ). Save.
+     (If Google login says it was not accepted later, this step is the usual cause.)
+
+PART 4 - FILL IN config.json (on GitHub: click config.json, pencil icon)
+  "ownerEmail"          already set to wow221113@gmail.com (the only account that can publish/remove)
+  "firebaseProjectId"   from Part 2 step 4
+  "firebaseApiKey"      from Part 2 step 4
+  "googleClientId"      from Part 3 step 3
+  "googleClientSecret"  from Part 3 step 3
+  Leave githubOwner/githubRepo alone (GitHub fills them in). Commit changes.
+  (These values are not private. Anyone can see them in any app, that is normal.)
+
+PART 5 - BUILD THE INSTALLER
+  Releases > Create a new release > tag v1.0.0 (Create new tag) > title 1.0.0 > Publish release.
+  Wait 5-10 minutes (Actions tab shows a green check). The release then has "Creations Setup 1.0.0.exe".
+
+PART 6 - FIRST RUN
+  1. Install and open it. Sign up with wow221113@gmail.com (with Google or email).
+  2. A "Publish" tab appears. Follow its 5 steps once to create a GitHub token and paste it in.
+  3. Publish your first game: title, description, game file (zip), optional cover, age rating.
+
+GIVE IT TO FRIENDS
+  Send https://github.com/YOUR-USERNAME/creations/releases/latest
+  They download "Creations Setup ... .exe". Windows may say "Windows protected your PC":
+  click More info > Run anyway. They sign up and can browse and download.
+
+UPDATES
+  Game update: Publish tab > pick the game > Update (new version + notes + new file).
+  Remove a game: Publish tab > Remove next to the game (or open the game > Remove game).
+  It disappears for every player and its files are deleted from GitHub. Cannot be undone.
+  App update: change files on GitHub, then make a new release v1.0.1, v1.0.2... Apps update themselves.
+  Do not delete the "game-files" release on GitHub: it holds your games.
+
+GOOD TO KNOW
+  * Age ratings and the 13+ rule are checked inside the app using the birthday people enter
+    (self-reported). They are not a hard lock: game files are public links.
+  * Email sign-ups are not verified. The real lock on publishing is your GitHub token,
+    which only exists on your computer.
+  * Firebase's free plan has daily limits; it is plenty for a small community.

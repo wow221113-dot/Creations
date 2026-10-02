@@ -1,0 +1,20 @@
+{
+  "name": "creations",
+  "version": "1.0.0",
+  "description": "Creations game store",
+  "author": "Creations",
+  "main": "main.js",
+  "scripts": { "start": "electron .", "dist": "electron-builder" },
+  "dependencies": { "electron-updater": "^6.3.0" },
+  "devDependencies": { "electron": "^33.0.0", "electron-builder": "^25.0.0" },
+  "build": {
+    "appId": "com.creations.store",
+    "productName": "Creations",
+    "files": ["main.js", "preload.js", "github.js", "auth.js", "config.json", "public/**"],
+    "win": { "target": "nsis" },
+    "mac": { "target": "dmg" },
+    "linux": { "target": "AppImage" },
+    "nsis": { "oneClick": false, "allowToChangeInstallationDirectory": true },
+    "publish": { "provider": "github", "owner": "YOUR-GITHUB-USERNAME", "repo": "creations", "releaseType": "release" }
+  }
+}

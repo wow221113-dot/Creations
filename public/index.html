@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'">
+<title>Creations</title>
+<style>
+:root{--bg:#0b0d14;--panel:#141826;--panel2:#1c2133;--ink:#f1f3fa;--muted:#8f98b0;--line:#252b40;--a1:#7c5cff;--a2:#2de2c5;--bad:#ff6b81;--grad:linear-gradient(135deg,var(--a1),var(--a2))}
+*{box-sizing:border-box}html,body{height:100%}body{margin:0;background:radial-gradient(1200px 600px at 80% -10%,#1d1a3d 0,transparent 60%),var(--bg);color:var(--ink);font:15px/1.5 "Segoe UI",system-ui,sans-serif}
+a{color:inherit;text-decoration:none}h1{font-size:32px;margin:0 0 6px;letter-spacing:-.5px}h2{font-size:19px;margin:30px 0 14px}.muted{color:var(--muted)}.ok{color:var(--a2)}
+.shell{display:grid;grid-template-columns:240px 1fr;height:100%}
+.side{background:rgba(20,24,38,.85);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:20px 14px}
+.logo{font:800 24px/1 Georgia,serif;padding:6px 12px 22px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.side nav{display:flex;flex-direction:column;gap:4px}
+.side nav a{padding:11px 14px;border-radius:10px;color:var(--muted);font-weight:600}.side nav a:hover{background:var(--panel2);color:var(--ink)}
+.side nav a.on{background:var(--panel2);color:var(--ink);box-shadow:inset 3px 0 0 var(--a2)}
+.me{margin-top:auto;display:flex;gap:10px;align-items:center;padding:10px;border-radius:12px;background:var(--panel2)}.me b{display:block;line-height:1.2}
+.ver{padding:12px 14px 2px;font-size:12px;color:var(--muted);text-align:center}
+.av{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-size:22px;flex:none}.av.big{width:96px;height:96px;font-size:50px}
+.content{overflow:auto;padding:28px 36px}
+.btn{display:inline-block;border:0;border-radius:10px;padding:11px 20px;background:var(--grad);color:#07131a;font:700 15px inherit;font-family:inherit;cursor:pointer}
+.btn.alt{background:var(--panel2);color:var(--ink);border:1px solid var(--line)}.btn:disabled{opacity:.5;cursor:default}.btn.sm{padding:6px 14px;font-size:13px}
+.btn:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,a:focus-visible,button:focus-visible{outline:3px solid var(--a2);outline-offset:2px}
+.tools{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:20px}.tools input{max-width:320px}
+.chip{border:1px solid var(--line);background:none;color:var(--muted);border-radius:99px;padding:6px 14px;cursor:pointer;font:inherit;font-size:13px}.chip.on{background:var(--grad);color:#07131a;border-color:transparent;font-weight:700}
+.hero{position:relative;display:grid;grid-template-columns:1.3fr 1fr;border-radius:20px;overflow:hidden;min-height:320px;background:var(--panel);border:1px solid var(--line)}
+.hero .txt{padding:36px;display:flex;flex-direction:column;justify-content:center;gap:12px;z-index:1}.hero h1{font-size:40px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:20px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:block;transition:transform .15s,box-shadow .15s}
+.card:hover{transform:translateY(-4px);box-shadow:0 14px 30px #0008}.card .meta{padding:12px 14px}.card b{display:block}
+.cover{width:100%;aspect-ratio:3/4;object-fit:cover;display:flex;align-items:flex-end;padding:16px;font:800 24px/1.1 Georgia,serif;color:#fff;text-shadow:0 2px 14px #0009}
+.hero .cover{aspect-ratio:auto;height:100%;min-height:300px}
+.tag{display:inline-block;font-size:12px;padding:2px 10px;border-radius:99px;background:var(--panel2);color:var(--muted);margin-right:4px}.tag.new{background:var(--grad);color:#07131a;font-weight:700}.tag.age{background:#3a2430;color:#ff9db0}
+.detail{display:grid;grid-template-columns:300px 1fr;gap:36px}.detail .cover{border-radius:16px}
+.log{border-left:2px solid var(--line);padding:2px 0 2px 14px;margin:12px 0}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:28px;max-width:640px;margin:0 auto 20px}
+label{display:block;margin:14px 0 5px;font-size:13px;color:var(--muted)}
+input,textarea,select{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;color:var(--ink);padding:11px 12px;font:inherit}
+textarea{min-height:100px;resize:vertical}input[type=color]{padding:2px;height:42px;width:80px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}.err{color:var(--bad);margin:12px 0 0;min-height:22px}
+.banner{background:var(--panel2);border-left:4px solid var(--bad);padding:10px 14px;border-radius:10px;margin-bottom:18px}
+.auth{min-height:100%;display:grid;place-items:center;padding:24px}.auth .panel{width:100%;max-width:440px;margin:0}
+.tabs{display:flex;gap:6px;background:var(--bg);border-radius:12px;padding:4px;margin:16px 0}.tabs button{flex:1;border:0;background:none;color:var(--muted);padding:9px;border-radius:9px;font:700 14px inherit;font-family:inherit;cursor:pointer}.tabs button.on{background:var(--panel2);color:var(--ink)}
+.gbtn{width:100%;background:#fff;color:#222;border:0;border-radius:10px;padding:11px;font:600 15px inherit;font-family:inherit;cursor:pointer;display:flex;gap:10px;justify-content:center;align-items:center}
+.gbtn i{font:700 18px Arial;font-style:normal;background:conic-gradient(#ea4335 0 25%,#fbbc05 0 50%,#34a853 0 75%,#4285f4 0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.or{text-align:center;color:var(--muted);margin:14px 0;font-size:13px}.small{font-size:12px;color:var(--muted);margin-top:10px}
+.pick{display:flex;flex-wrap:wrap;gap:8px}.pick label{margin:0;cursor:pointer}.pick input{position:absolute;opacity:0;width:0}
+.pick span{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;font-size:22px;border:2px solid transparent;background:var(--panel2)}.pick input:checked+span{border-color:var(--a2)}.pick input:focus-visible+span{outline:3px solid var(--a2)}
+.sw span{width:32px;height:32px}
+ol.steps{padding-left:20px;color:var(--muted)}ol.steps li{margin:6px 0}code{background:var(--bg);padding:1px 6px;border-radius:4px}
+.ownrow{display:flex;justify-content:space-between;align-items:center;background:var(--panel2);padding:12px 16px;border-radius:12px;margin:8px 0}
+@media(max-width:820px){.shell{grid-template-columns:1fr;grid-template-rows:auto 1fr}.side{flex-direction:row;flex-wrap:wrap;align-items:center;padding:8px}.side nav{flex-direction:row}.logo{padding:6px 10px}.me,.ver{display:none}.hero,.detail,.row{grid-template-columns:1fr}.content{padding:18px}}
+</style></head>
+<body><div id="root"></div>
+<script>
+const $=s=>document.querySelector(s), root=$('#root'), C=window.creations;
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=t=>new Date(Number(t)).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});
+const size=n=>n>=1e9?(n/1e9).toFixed(2)+' GB':n>=1e6?(n/1e6).toFixed(1)+' MB':Math.max(1,Math.round(n/1e3))+' KB';
+const call=async p=>{const r=await p;if(!r.ok)throw new Error(r.error);return r.data};
+const newer=(a,b)=>{const x=String(a).split(/[.-]/).map(Number),y=String(b).split(/[.-]/).map(Number);for(let i=0;i<Math.max(x.length,y.length);i++){const d=(x[i]||0)-(y[i]||0);if(d)return d>0}return false};
+const AV=['🎮','🚀','🐉','🦊','🐼','👾','🎧','⚡','🌙','🔥'], COL=['#7c5cff','#2de2c5','#ff6b81','#ffb454','#4aa8ff','#a3e635'];
+let cfg={}, st={}, games=[], loadErr='', picked={}, filter={q:'',genre:''}, authTab='login';
+const today=new Date().toISOString().slice(0,10);
+
+async function boot(){
+  cfg=await call(C.cfg());
+  try{st=await call(C.restore())}catch{st={signedIn:false}}
+  await render();
+}
+async function render(){
+  if(!st.signedIn)return authScreen();
+  if(st.needsProfile)return completeScreen();
+  if(!games.length)await loadGames();
+  shell();
+}
+async function loadGames(){try{games=(await call(C.catalog())).games;loadErr=''}catch(e){games=[];loadErr=e.message}}
+
+/* ---------- sign in / sign up ---------- */
+function authScreen(){
+  const su=authTab==='signup';
+  root.innerHTML=`<div class="auth"><div class="panel"><div class="logo" style="padding:0">Creations</div><h1 style="font-size:26px">${su?'Create your account':'Welcome back'}</h1>
+  ${cfg.authReady?'':'<div class="banner">Accounts are not set up yet. Follow the Firebase steps in GUIDE.txt.</div>'}
+  <div class="tabs" role="tablist"><button class="${su?'':'on'}" data-act="tab" data-t="login">Log in</button><button class="${su?'on':''}" data-act="tab" data-t="signup">Sign up</button></div>
+  ${cfg.googleReady?`<button class="gbtn" data-act="google"><i>G</i> Continue with Google</button><div class="or">or use your email</div>`:''}
+  <form data-f="${su?'signup':'login'}">
+    ${su?'<label for="n">Display name</label><input id="n" name="name" required maxlength="40" autocomplete="nickname">':''}
+    <label for="e">Email</label><input id="e" name="email" type="email" required autocomplete="email">
+    <label for="p">Password${su?' (6+ characters)':''}</label><input id="p" name="password" type="password" required minlength="${su?6:1}" autocomplete="${su?'new-password':'current-password'}">
+    ${su?`<label for="b">Birthday</label><input id="b" name="birthday" type="date" required max="${today}" min="1900-01-01"><div class="small">You must be 13 or older. Your birthday stays private and is only used to show age-appropriate games.</div>`:''}
+    <p class="err" role="alert"></p><button class="btn" style="width:100%">${su?'Create account':'Log in'}</button>
+    ${su?'':'<p class="small"><a href="#" data-act="reset" style="text-decoration:underline">Forgot your password?</a></p>'}
+  </form></div></div>`;
+}
+function completeScreen(){
+  root.innerHTML=`<div class="auth"><form class="panel" data-f="complete"><div class="logo" style="padding:0">Creations</div><h1 style="font-size:26px">One last step</h1>
+  <p class="muted">Signed in as ${esc(st.email)}. Pick a display name and enter your birthday.</p>
+  <label for="n">Display name</label><input id="n" name="name" required maxlength="40">
+  <label for="b">Birthday</label><input id="b" name="birthday" type="date" required max="${today}" min="1900-01-01">
+  <div class="small">You must be 13 or older. Your birthday stays private.</div>
+  <p class="err" role="alert"></p><button class="btn" style="width:100%">Continue</button> <p class="small"><a href="#" data-act="logout" style="text-decoration:underline">Use a different account</a></p></form></div>`;
+}
+
+/* ---------- main app ---------- */
+const avatar=(p,big)=>`<span class="av ${big?'big':''}" style="background:${esc(p?.color||'#7c5cff')}33;border:2px solid ${esc(p?.color||'#7c5cff')}">${esc(p?.avatar||'🎮')}</span>`;
+const cover=g=>g.coverUrl?`<img class="cover" src="${esc(g.coverUrl)}" alt="${esc(g.title)} cover">`
+  :`<div class="cover" style="background:linear-gradient(160deg,${esc(g.color||'#3b5bdb')},#0b0d14 130%)">${esc(g.title)}</div>`;
+const locked=g=>g.ageRating&&(st.age??0)<g.ageRating;
+const upd=g=>{const l=st.library[g.id];return l&&newer(g.version,l.version)};
+const card=g=>`<a class="card" href="#/game/${esc(g.id)}">${cover(g)}<div class="meta"><b>${esc(g.title)}</b><span class="muted">${esc(g.genre||'Game')} · v${esc(g.version)}</span><div style="margin-top:6px">${g.ageRating?`<span class="tag age">${g.ageRating}+</span>`:''}${upd(g)?'<span class="tag new">Update</span>':''}</div></div></a>`;
+function shell(){
+  const h=location.hash||'#/', on=p=>h.startsWith(p)?'on':'';
+  root.innerHTML=`<div class="shell"><aside class="side"><div class="logo">Creations</div><nav>
+    <a class="${h==='#/'||h.startsWith('#/game')?'on':''}" href="#/">Store</a><a class="${on('#/library')}" href="#/library">My games</a>
+    <a class="${on('#/profile')}" href="#/profile">Profile</a>${st.isOwner?`<a class="${on('#/owner')+on('#/publish')+on('#/edit')}" href="#/owner">Publish</a>`:''}</nav>
+    <a class="me" href="#/profile">${avatar(st.profile)}<span><b>${esc(st.profile?.name)}</b><span class="muted" style="font-size:12px">${st.isOwner?'Owner':'Player'}</span></span></a>
+    <div class="ver">Creations v${esc(cfg.version)}</div></aside><main class="content" id="app"></main></div>`;
+  route();
+}
+const views={
+  store(){
+    const genres=[...new Set(games.map(g=>g.genre).filter(Boolean))], q=filter.q.toLowerCase();
+    const list=games.filter(g=>(!filter.genre||g.genre===filter.genre)&&(!q||(g.title+' '+g.tagline).toLowerCase().includes(q)));
+    const banner=loadErr?`<div class="banner" role="alert">${esc(loadErr)} <button class="btn alt sm" data-act="refresh">Try again</button></div>`:'';
+    if(!games.length)return banner+`<h1>Store</h1><p class="muted">No games here yet.${st.isOwner?' Open <b>Publish</b> to add the first one.':''}</p>`;
+    const f=games[0];
+    return banner+`<div class="hero"><div class="txt"><span><span class="tag new">Featured</span>${f.ageRating?`<span class="tag age">${f.ageRating}+</span>`:''}</span><h1>${esc(f.title)}</h1><p class="muted">${esc(f.tagline)}</p>
+      <div><a class="btn" href="#/game/${esc(f.id)}">View game</a></div></div>${cover(f)}</div>
+      <h2>Browse</h2><div class="tools"><input id="q" type="search" placeholder="Search games" value="${esc(filter.q)}" aria-label="Search games">
+      <button class="chip ${filter.genre?'':'on'}" data-act="genre" data-g="">All</button>${genres.map(x=>`<button class="chip ${filter.genre===x?'on':''}" data-act="genre" data-g="${esc(x)}">${esc(x)}</button>`).join('')}
+      <button class="btn alt sm" data-act="refresh">Refresh</button></div>
+      <div class="grid" id="grid">${list.map(card).join('')||'<p class="muted">No games match.</p>'}</div>`;
+  },
+  game(id){
+    const g=games.find(x=>x.id===id); if(!g)return `<p>Game not found. <a href="#/" style="text-decoration:underline">Back to store</a></p>`;
+    const l=st.library[g.id], u=upd(g), lk=locked(g);
+    return `<div class="detail"><div>${cover(g)}</div><div><span class="tag">${esc(g.genre||'Game')}</span>${g.ageRating?`<span class="tag age">Ages ${g.ageRating}+</span>`:''}<h1>${esc(g.title)}</h1>
+      <p class="muted">${esc(g.tagline)}</p><p style="white-space:pre-wrap">${esc(g.description)}</p>
+      <p>${lk?`<button class="btn" disabled>Not available for your age</button> <span class="muted">This game is rated ${g.ageRating}+.</span>`
+        :`<button class="btn" data-act="dl" data-id="${esc(g.id)}">${u?'Download update v'+esc(g.version):l?'Download again':'Download v'+esc(g.version)}</button> <span class="muted">${esc(g.fileName||'')} ${g.fileSize?'· '+size(g.fileSize):''}</span>`}
+      ${st.isOwner&&st.hasToken?` <a class="btn alt" href="#/edit/${esc(g.id)}">Update game</a> <button class="btn alt" data-act="remove" data-id="${esc(g.id)}" style="color:var(--bad)">Remove game</button>`:''}</p>
+      ${l?`<p class="${u?'':'ok'}">${u?'You have v'+esc(l.version)+'. A newer version is out.':'You have the latest version (v'+esc(l.version)+').'}</p>`:''}
+      <h2>Version history</h2>${(g.history||[]).map(h=>`<div class="log"><b>v${esc(h.version)}</b> <span class="muted">${fmt(h.date)}</span><br>${esc(h.notes)}</div>`).join('')}</div></div>`;
+  },
+  library(){
+    const mine=games.filter(g=>st.library[g.id]);
+    return `<h1>My games</h1><p class="muted">Games you've downloaded. A badge shows when an update is out.</p>${mine.length?`<div class="grid" style="margin-top:18px">${mine.map(card).join('')}</div>`:'<p class="muted">Nothing yet. Download a game from the store.</p>'}`;
+  },
+  profile(){
+    const p=st.profile||{};
+    return `<form class="panel" data-f="profile"><div style="display:flex;gap:20px;align-items:center">${avatar(p,true)}<div><h1 style="font-size:28px">${esc(p.name)}</h1>
+      <div class="muted">${esc(st.email)}</div><div class="muted">Member since ${p.created?fmt(p.created):'today'} · ${Object.keys(st.library).length} game(s) downloaded</div>
+      <div style="margin-top:6px"><span class="tag ${st.isOwner?'new':''}">${st.isOwner?'Owner':'Player'}</span>${st.age!=null?`<span class="tag">${st.age>=18?'18+':st.age>=13?'13+':''} account</span>`:''}</div></div></div>
+      <h2>Edit profile</h2><label for="n">Display name</label><input id="n" name="name" required maxlength="40" value="${esc(p.name)}">
+      <label for="bio">Bio</label><textarea id="bio" name="bio" maxlength="200">${esc(p.bio)}</textarea>
+      <label>Avatar</label><div class="pick">${AV.map(a=>`<label><input type="radio" name="avatar" value="${a}" ${((p.avatar||'🎮')===a)?'checked':''}><span>${a}</span></label>`).join('')}</div>
+      <label>Color</label><div class="pick sw">${COL.map(c=>`<label><input type="radio" name="color" value="${c}" ${((p.color||COL[0])===c)?'checked':''}><span style="background:${c}"></span></label>`).join('')}</div>
+      <p class="err" role="alert"></p><button class="btn">Save profile</button> <button type="button" class="btn alt" data-act="logout">Log out</button></form>`;
+  },
+  owner(){
+    if(!st.isOwner)return `<div class="panel"><h1>Owner only</h1><p class="muted">Only the Creations owner can publish games.</p></div>`;
+    if(st.hasToken)return `<div class="panel"><h1>Publish</h1><p class="ok">Publishing is on for ${esc(cfg.repo)}. Everything you publish is visible to every player.</p>
+      <p><a class="btn" href="#/publish">Publish a new game</a> <button class="btn alt" data-act="cleartoken">Turn publishing off</button></p>
+      ${games.length?'<h2>Your games</h2>'+games.map(g=>`<div class="ownrow"><span>${esc(g.title)} <span class="muted">v${esc(g.version)}</span></span><span><a class="btn alt sm" href="#/edit/${esc(g.id)}">Update</a> <button class="btn alt sm" data-act="remove" data-id="${esc(g.id)}" style="color:var(--bad)">Remove</button></span></div>`).join(''):''}</div>`;
+    return `<form class="panel" data-f="token"><h1>Turn on publishing</h1><p class="muted">One-time setup: a GitHub token lets this app upload your games.</p>
+      <ol class="steps"><li>Go to <b>github.com</b> and sign in.</li><li>Click your picture, then <b>Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token</b>.</li>
+      <li>Name it <code>Creations</code>. Under <b>Repository access</b> pick <b>Only select repositories</b> and choose <code>${esc(cfg.repo.split('/')[1])}</code>.</li>
+      <li>Under <b>Repository permissions</b> set <b>Contents</b> to <b>Read and write</b>.</li><li>Click <b>Generate token</b>, copy it and paste it below.</li></ol>
+      <label for="t">Token</label><input id="t" name="token" type="password" autocomplete="off" required><p class="err" role="alert"></p><button class="btn">Turn on publishing</button></form>`;
+  },
+  form(g){
+    if(!st.isOwner||!st.hasToken)return views.owner();
+    const e=!!g; g=g||{color:'#3b5bdb',version:'1.0.0',ageRating:0};
+    return `<form class="panel" data-f="${e?'update':'publish'}" data-id="${esc(g.id||'')}"><h1>${e?'Update '+esc(g.title):'Publish a game'}</h1>
+      <label for="t">Title</label><input id="t" name="title" required maxlength="80" value="${esc(g.title)}">
+      <label for="tg">Tagline</label><input id="tg" name="tagline" maxlength="140" value="${esc(g.tagline)}">
+      <div class="row"><div><label for="gn">Genre</label><input id="gn" name="genre" maxlength="30" value="${esc(g.genre)}"></div>
+      <div><label for="v">Version${e?' (new)':''}</label><input id="v" name="version" required maxlength="20" value="${esc(g.version)}"></div></div>
+      <label for="ar">Age rating</label><select id="ar" name="ageRating">${[[0,'Everyone'],[13,'13+'],[17,'17+']].map(([v,l])=>`<option value="${v}" ${Number(g.ageRating||0)===v?'selected':''}>${l}</option>`).join('')}</select>
+      <label for="d">Description</label><textarea id="d" name="description" required>${esc(g.description)}</textarea>
+      <label>Game file (zip or installer, under 2 GB)${e?' — skip to keep the current file':''}</label>
+      <button type="button" class="btn alt sm" data-act="pick" data-kind="file">Choose file…</button> <span id="pf-file" class="muted">${e&&g.fileName?'Current: '+esc(g.fileName):'Nothing chosen'}</span>
+      <label>Cover image (PNG, JPG, WEBP or GIF, under 5 MB, optional)</label>
+      <button type="button" class="btn alt sm" data-act="pick" data-kind="cover">Choose image…</button> <span id="pf-cover" class="muted">${e&&g.coverUrl?'Current cover kept unless you choose a new one':'Nothing chosen'}</span>
+      <label for="co">Cover color (used when there is no image)</label><input id="co" name="color" type="color" value="${esc(g.color||'#3b5bdb')}">
+      ${e?`<label for="no">What changed in this update?</label><textarea id="no" name="notes" required></textarea>`:''}
+      <p class="err" role="alert"></p><p class="muted" id="prog"></p><button class="btn">${e?'Publish update':'Publish game'}</button></form>`;
+  }
+};
+function route(){
+  const a0=$('#app'); if(!a0)return; const [,a,b]=(location.hash||'#/').split('/'); a0.scrollTo(0,0);
+  document.querySelectorAll('.side nav a').forEach(x=>x.classList.remove('on'));
+  const set=h=>a0.innerHTML=h;
+  if(a==='game')set(views.game(b)); else if(a==='library')set(views.library()); else if(a==='profile')set(views.profile());
+  else if(a==='owner')set(views.owner()); else if(a==='publish'){picked={};set(views.form())}
+  else if(a==='edit'){picked={};set(views.form(games.find(g=>g.id===b)))} else set(views.store());
+  const cur={game:'/',library:'library',profile:'profile',owner:'owner',publish:'owner',edit:'owner'}[a]||'/';
+  const m=[...document.querySelectorAll('.side nav a')].find(x=>x.getAttribute('href')==='#/'+(cur==='/'?'':cur)); if(m)m.classList.add('on');
+}
+
+/* ---------- events ---------- */
+C.onProgress(d=>{const p=$('#prog');if(p)p.textContent=d.text+(/Uploading/.test(d.text)&&d.pct<100?' '+d.pct+'%':'')});
+document.addEventListener('input',e=>{if(e.target.id==='q'){filter.q=e.target.value;const g=$('#grid');if(g){const q=filter.q.toLowerCase();const l=games.filter(x=>(!filter.genre||x.genre===filter.genre)&&(!q||(x.title+' '+x.tagline).toLowerCase().includes(q)));g.innerHTML=l.map(card).join('')||'<p class="muted">No games match.</p>'}}});
+document.addEventListener('submit',async ev=>{
+  ev.preventDefault(); const f=ev.target, d=Object.fromEntries(new FormData(f)), err=f.querySelector('.err'), btn=f.querySelector('button.btn'); if(err)err.textContent=''; if(btn)btn.disabled=true;
+  try{
+    const k=f.dataset.f;
+    if(k==='login')st=await call(C.signIn(d));
+    else if(k==='signup')st=await call(C.signUp(d));
+    else if(k==='complete')st=await call(C.complete(d));
+    else if(k==='profile'){st=await call(C.saveProfile(d));if(btn)btn.disabled=false;route();shell();return}
+    else if(k==='token'){await call(C.setToken(d.token));st=await call(C.status())}
+    else{const g=await call(C.publish({...d,mode:k,id:f.dataset.id,filePath:picked.file?.path,coverPath:picked.cover?.path}));await loadGames();location.hash='#/game/'+g.id}
+    games=k==='login'||k==='signup'||k==='complete'?[]:games; await render(); if(k==='token')location.hash='#/owner';
+  }catch(x){if(err)err.textContent=x.message;if(btn)btn.disabled=false;if(/at least 13/.test(x.message)&&f.dataset.f==='complete'){st={signedIn:false};setTimeout(render,2500)}}
+});
+document.addEventListener('click',async ev=>{
+  const b=ev.target.closest('[data-act]'); if(!b)return; const a=b.dataset.act; if(a==='reset')ev.preventDefault();
+  try{
+    if(a==='tab'){authTab=b.dataset.t;authScreen()}
+    if(a==='google'){b.disabled=true;b.textContent='Waiting for your browser…';try{st=await call(C.google());games=[];await render()}finally{if(!st.signedIn)authScreen()}}
+    if(a==='reset'){const e=$('#e')?.value;if(!e)throw new Error('Type your email above first.');await call(C.reset(e));alert('If that email has an account, a reset link is on its way.')}
+    if(a==='logout'){await call(C.signOut());st={signedIn:false};games=[];authTab='login';authScreen()}
+    if(a==='refresh'){await loadGames();route()}
+    if(a==='genre'){filter.genre=b.dataset.g;route()}
+    if(a==='cleartoken'){await call(C.clearToken());st=await call(C.status());route()}
+    if(a==='pick'){const r=await call(C.pickFile(b.dataset.kind));if(r){picked[b.dataset.kind]=r;$('#pf-'+b.dataset.kind).textContent=r.name+' · '+size(r.size)}}
+    if(a==='remove'){
+      const g=games.find(x=>x.id===b.dataset.id); if(!g)return;
+      if(!confirm(`Remove "${g.title}" from the store?\n\nIt disappears for every player and its files are deleted from GitHub. This cannot be undone.`))return;
+      b.disabled=true; const r=await call(C.removeGame(g.id)); await loadGames(); location.hash='#/owner'; route();
+      alert(r.failed?`"${r.title}" was removed from the store, but ${r.failed} file(s) could not be deleted from GitHub. You can delete them on the game-files release.`:`"${r.title}" was removed.`);
+    }
+    if(a==='dl'){
+      const g=games.find(x=>x.id===b.dataset.id); if(!g?.fileUrl)throw new Error('This game has no file yet.'); if(locked(g))throw new Error('This game is not available for your age.');
+      await call(C.download(g.fileUrl)); st.library=await call(C.addLibrary({id:g.id,version:g.version})); route();
+    }
+  }catch(x){alert(x.message)}
+});
+window.addEventListener('hashchange',()=>{if(st.signedIn&&!st.needsProfile){const h=location.hash||'#/';route()}});
+boot().catch(e=>{root.innerHTML='<div class="auth"><div class="panel"><h1>Something went wrong</h1><p class="muted">'+esc(e.message)+'</p></div></div>'});
+</script></body></html>
